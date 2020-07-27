@@ -41,7 +41,10 @@ Status InnerProductLayer::InferOutputShape() {
     int N    = ip_param->num_output;
     int axis = ip_param->axis;
     //    int M    = DimsVectorUtils::Count(input_blob->GetBlobDesc().dims, 0, axis);
-    //    int K    = DimsVectorUtils::Count(input_blob->GetBlobDesc().dims, axis);
+    int K    = DimsVectorUtils::Count(input_blob->GetBlobDesc().dims, axis);
+    if (this->param_->weight_data_size != N * K) {
+        LOGE("Error: inner_product weight size and input shape are mismatched");
+    }
 
     output_blob->GetBlobDesc().dims = input_blob->GetBlobDesc().dims;
 
